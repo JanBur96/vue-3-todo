@@ -26,7 +26,7 @@
         Completed
       </li>
     </ul>
-    <p>Clear Completed</p>
+    <p @click="clearCompleted" @keyup.space="clearCompleted">Clear Completed</p>
   </div>
   <p class="todo-action__info">Drag and drop to reorder list</p>
 </template>
@@ -36,6 +36,7 @@ import { ref } from 'vue';
 
 export default {
   props: ['todos'],
+  emits: ['change-filter', 'clear-completed'],
   setup(props, context) {
     const activeFilter = ref('all');
 
@@ -44,9 +45,14 @@ export default {
       context.emit('change-filter', filterToSelect);
     };
 
+    const clearCompleted = () => {
+      context.emit('clear-completed', props.todos);
+    };
+
     return {
       selectFilter,
       activeFilter,
+      clearCompleted,
     };
   },
 };

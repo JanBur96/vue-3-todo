@@ -1,13 +1,8 @@
 <template>
   <header class="header">
-    <h1>
-      TODO
-    </h1>
-    <img src="../assets/images/icon-moon.svg" alt="">
+    <h1>TODO</h1>
   </header>
 </template>
-
-<script></script>
 
 <style>
 .header {

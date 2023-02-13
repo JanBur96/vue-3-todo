@@ -4,8 +4,8 @@
     <label for="newTodo">
       <input
         class="new-todo__input"
-        type="text"
         id="newTodo"
+        type="text"
         aria-label="Create a new todo"
         placeholder="Create a new todo..."
         v-model="title"
@@ -33,13 +33,13 @@ export default {
 
 <style scoped>
 .new-todo {
-  margin-top: 2.5rem;
   height: 64px;
-  background-color: #ffffff;
+  margin-top: 2.5rem;
+  padding: 20px 24px;
   display: flex;
   align-items: center;
-  padding: 20px 24px;
   gap: 24px;
+  background-color: #ffffff;
   border-radius: 5px;
 }
 

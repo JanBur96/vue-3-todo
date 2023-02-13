@@ -1,6 +1,8 @@
 <template>
   <ul class="todo-list" >
-    <li class="todo-list-item" :data-index="todo.id"
+    <li
+        class="todo-list__item"
+        :class="{'todo-list__item-status--finished' : todo.completed }"
         v-for="(todo, index) in todos"
         :key="todo.id"
         :data-id="index"
@@ -8,18 +10,17 @@
         @dragstart="dragStart"
         @dragend="dragEnd"
         @dragover.prevent="dragOver"
-        @drop.prevent="drop($event, this)"
+        @drop.prevent="drop"
         @dragleave="dragLeave"
-        :class="{'todo-list-item__status--finished' : todo.completed }"
     >
       <div
-        class="todo-list-item__status"
+        class="todo-list__item-status"
         @click="finishTodo(todo.id)"
         @keyup.space="finishTodo"
       >
-        <img src="../assets/images/icon-check.svg" alt="">
+        <img src="../assets/images/icon-check.svg" alt="Vector icon of a check marc">
       </div>
-      <h2 class="todo-list-item__heading">
+      <h2 class="todo-list__item-heading">
         {{ todo.title }}
       </h2>
     </li>
@@ -29,8 +30,6 @@
 <script>
 
 export default {
-  components: {
-  },
   props: ['todos'],
   setup(props, context) {
     const finishTodo = (id) => {
@@ -44,8 +43,15 @@ export default {
 
     const dragStart = (e) => {
       e.dataTransfer.setData('text/plain', e.target.getAttribute('data-id'));
-      console.log(e.target.getAttribute('data-id'));
       e.currentTarget.classList.add('dragging');
+    };
+
+    const dragOver = (e) => {
+      e.currentTarget.classList.add('drag-over');
+    };
+
+    const dragLeave = (e) => {
+      e.currentTarget.classList.remove('drag-over');
     };
 
     const drop = (e) => {
@@ -57,14 +63,6 @@ export default {
 
     const dragEnd = (e) => {
       e.currentTarget.classList.remove('dragging');
-    };
-
-    const dragOver = (e) => {
-      e.currentTarget.classList.add('drag-over');
-    };
-
-    const dragLeave = (e) => {
-      e.currentTarget.classList.remove('drag-over');
     };
 
     return {
@@ -82,42 +80,42 @@ export default {
 <style scoped>
 .todo-list {
   margin-top: 24px;
+  display: flex;
+  flex-direction: column;
   background-color: #fff;
   border-radius: 5px;
   list-style: none;
-  display: flex;
-  flex-direction: column;
 }
 
-.todo-list-item {
+.todo-list__item {
+  padding: 20px 24px;
   display: flex;
   align-items: center;
   gap: 24px;
-  padding: 20px 24px;
   border-bottom: 1px solid #E3E4F1;
   cursor: grab;
 }
 
-.todo-list-item__status {
+.todo-list__item-status {
   width: 1.5rem;
   height: 1.5rem;
-  border-radius: 100%;
-  border: 1px solid #E3E4F1;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 100%;
+  border: 1px solid #E3E4F1;
   cursor: pointer;
 }
 
-.todo-list-item__status--finished div {
+.todo-list__item-status--finished div {
   background: linear-gradient(to right, #55DDFF 0%, #C058F3);
 }
 
-.todo-list-item__status--finished h2 {
+.todo-list__item-status--finished h2 {
   text-decoration: line-through;
 }
 
-.todo-list-item__heading {
+.todo-list__item-heading {
   font-size: 18px;
   font-weight: normal;
 }

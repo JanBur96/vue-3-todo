@@ -16,4 +16,10 @@ export default {
   margin: 70px auto 52px auto;
 }
 
+@media screen and (max-width: 540px) {
+  .container {
+    margin: 40px 24px auto 24px;
+  }
+}
+
 </style>

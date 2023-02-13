@@ -2,7 +2,11 @@
   <TheHeader />
   <TheInput @add-todo="addTodo" />
   <TheTodoList :todos="filteredTodos" @finish-todo="finishTodo" />
-  <TheTodoAction :todos="filteredTodos" @change-filter="changeFilter" />
+  <TheTodoAction
+    :todos="filteredTodos"
+    @change-filter="filterTodos"
+    @clear-completed="clearCompleted"
+  />
 </template>
 
 <script>
@@ -22,7 +26,7 @@ export default {
   },
 
   setup() {
-    const todos = reactive([
+    let todos = reactive([
       {
         id: 1,
         title: 'Learn Vue.js',
@@ -44,26 +48,16 @@ export default {
         completed: false,
       },
     ]);
-
     const filteredTodos = ref(todos);
-    const selectedFilter = ref('all');
 
-    const filterTodos = () => {
-      console.log(selectedFilter.value);
-      if (selectedFilter.value === 'all') {
+    const filterTodos = (filterBy) => {
+      if (filterBy === 'all') {
         filteredTodos.value = todos;
-      } else if (selectedFilter.value === 'active') {
+      } else if (filterBy === 'active') {
         filteredTodos.value = todos.filter((todo) => !todo.completed);
-      } else if (selectedFilter.value === 'completed') {
+      } else if (filterBy === 'completed') {
         filteredTodos.value = todos.filter((todo) => todo.completed);
       }
-
-      console.log(filteredTodos.value);
-    };
-
-    const changeFilter = (filterBy) => {
-      selectedFilter.value = filterBy;
-      filterTodos(filterBy);
     };
 
     const addTodo = (todoToAdd) => {
@@ -72,6 +66,7 @@ export default {
         title: todoToAdd,
         completed: false,
       });
+      filterTodos('all');
     };
 
     const finishTodo = (id) => {
@@ -83,12 +78,18 @@ export default {
       });
     };
 
+    const clearCompleted = () => {
+      todos = todos.filter((todo) => !todo.completed);
+      filteredTodos.value = todos;
+    };
+
     return {
       todos,
       addTodo,
       finishTodo,
       filteredTodos,
-      changeFilter,
+      filterTodos,
+      clearCompleted,
     };
   },
 };
