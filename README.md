@@ -18,7 +18,7 @@ You will need to have Node.js and npm installed on your computer.
 
 ### Installing
 1. Clone the repository to your local machine
-```git clone https://github.com/your-username/vue-todo-app.git```
+```git clone https://github.com/JanBur96/vue-3-todo```
 2. Navigate to the project directory
 ```cd vue-todo-app```
 3. Install the dependencies
